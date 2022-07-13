@@ -1,84 +1,67 @@
 import React, { useState } from 'react' //estado
 import ReactDOM from 'react-dom'
 
-const Display = ({counter}) => <div>{counter}</div>
+const NoSeUsaAdvertencia = () => {
+    return <h1>'Todavia no se ha usado el contador'</h1>
+}
 
-const Button = ({handleClick,text}) => (
-  <button onClick={handleClick}>
-    {text}
-  </button>
-)
+const ClickHistory = ({counterc}) =>{
+    console.log({counterc})
+    return(<p>{counterc.join(', ')}</p>)
+}
 
 const App = () => {
-  const [ counter, setCounter ] = useState(0)
+    //const [left, setLeft] = useState(0)
+    //const [right, setRight] = useState(0) //esta forma es mejor (estado mas atomico)
+    const [clicks, updateClicks] = useState({
+        left : 0, 
+        right : 0,
+        counter : 0, //siempre que puedas no tengas en el estado algo que puedas calcular
+        mensaje : "Mensaje en el estado"
+    }) // forma mas compleja. Objeto.
 
-  /*  
-  setTimeout(    
-    () => setCounter(counter + 1),    
-    1000
-  )
+    const[counterc, setCounterc] = useState([]) //estado complejo matriz
 
-  console.log('rendering...', counter)
-  */ //componente estado
-
-  //const handleClick = () => {    
-  //  console.log('clicked')  
-  //}
-
-  const increaseByOne = () => setCounter(counter + 1)
-  const setToZero = () => setCounter(0)
-  const decreaseByOne = () => setCounter(counter - 1)
-  /*const byOneIncDec = () => {
-    if (Button(text == 'Plus')) {
-      setCounter(counter + 1)
-    }else if (Button(text == 'Minus')){
-      setCounter(counter - 1)
-    }else if (Button(text == 'Zero')){
-      setCounter(0)
+    const handleLeftClick = () =>{
+        const newClicks = {
+            ...clicks, //spread opertor. Se guardan propiedades del objeto previas y se sobrescriben con las siguientes
+            left: clicks.left + 1,
+            counter: clicks.counter + 1
+            //right: clicks.right //ya no tiene sentido se recuper en ...clicks
+        }
+        updateClicks(newClicks)
+        setCounterc (prevCounter =>{
+            return prevCounter.concat('L')
+        })
     }
-  }*/
+
+    const handleRightClick = () => {
+        updateClicks ({ 
+        ...clicks,
+          //left: clicks.left, 
+          right: clicks.right + 1,
+          counter: clicks.counter + 1 
+        })
+        setCounterc(prevCounter=>([...prevCounter, 'R']))
+      }
   
-  const isEven = counter % 2 === 0
-  const mensajeParT = isEven ?  'es par' : 'es impar' //ternarias (se recomienda usar)
-  let mensajePar = ''
-  if (isEven){
-    mensajePar = "Es Par"
-  } else {
-    mensajePar = "Es Impar"
+    return (
+      <div>
+        {clicks.left}
+        <button onClick={handleLeftClick}> left </button>
+        <button onClick={handleRightClick}> right </button>
+        {clicks.right}
+        <p>Clicks Totales: {clicks.counter}</p>
+        <p>{clicks.mensaje}</p>
+        <p>{counterc.join(', ')}</p>
+        <p>{counterc.length.toString()}</p>
+        {counterc.length === 0 ? (<NoSeUsaAdvertencia/>
+        ) : (<ClickHistory counterc ={counterc}/>)}
+      </div>
+    )
   }
 
-  return (
-    <div>
-      <Display counter={counter}/>
-      <Button handleClick ={increaseByOne} text='Plus'/>
-      <Button handleClick ={decreaseByOne} text='Minus'/>
-      <Button handleClick ={setToZero} text='Zero'/>
-      <p>{mensajeParT}</p> {/* renderizado condicional (ternarias)*/}
-      <p>{mensajePar}</p>
-      {/*<button onClick={increaseByOne}>
-        plus
-      </button>
-      <button onClick={setToZero}>
-        zero      
-  </button>*/}
-    </div>
-    )
-}
-  
-ReactDOM.render(
+  ReactDOM.render(
     <App />, 
     document.getElementById('root')
 )
-
-  /*
-  let counter = 1
-  const refresh = () => {
-    ReactDOM.render(<App counter={counter} />, 
-    document.getElementById('root'))
-  }
-  
-  setInterval(() => {
-    refresh()
-    counter += 1
-  }, 1000)
-  */
