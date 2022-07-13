@@ -28,13 +28,33 @@ const App = () => {
   const increaseByOne = () => setCounter(counter + 1)
   const setToZero = () => setCounter(0)
   const decreaseByOne = () => setCounter(counter - 1)
+  /*const byOneIncDec = () => {
+    if (Button(text == 'Plus')) {
+      setCounter(counter + 1)
+    }else if (Button(text == 'Minus')){
+      setCounter(counter - 1)
+    }else if (Button(text == 'Zero')){
+      setCounter(0)
+    }
+  }*/
+  
+  const isEven = counter % 2 === 0
+  const mensajeParT = isEven ?  'es par' : 'es impar' //ternarias (se recomienda usar)
+  let mensajePar = ''
+  if (isEven){
+    mensajePar = "Es Par"
+  } else {
+    mensajePar = "Es Impar"
+  }
 
   return (
     <div>
       <Display counter={counter}/>
-      <Button handleClick ={increaseByOne} text="Plus"/>
-      <Button handleClick ={decreaseByOne} text="Minus"/>
-      <Button handleClick ={setToZero} text="Zero"/>
+      <Button handleClick ={increaseByOne} text='Plus'/>
+      <Button handleClick ={decreaseByOne} text='Minus'/>
+      <Button handleClick ={setToZero} text='Zero'/>
+      <p>{mensajeParT}</p> {/* renderizado condicional (ternarias)*/}
+      <p>{mensajePar}</p>
       {/*<button onClick={increaseByOne}>
         plus
       </button>
