@@ -1,67 +1,84 @@
 import React, { useState } from 'react' //estado
 import ReactDOM from 'react-dom'
 
-const NoSeUsaAdvertencia = () => {
-    return <h1>'Todavia no se ha usado el contador'</h1>
-}
-
-const ClickHistory = ({counterc}) =>{
-    console.log({counterc})
-    return(<p>{counterc.join(', ')}</p>)
-}
+const Header = ({name}) => <h1>{name}</h1>
+const Button = ({handleClick,text}) => (<button onClick={handleClick}> {text} </button>)
+const H2 = ({name}) => <h2>{name}</h2>
+const Estadisticas =({name, estadistica}) => <p>{name}{estadistica}</p>
+const Stats = ({good,bad,neutral}) => {
+    if ((good+neutral+bad) === 0){
+        return(
+            <div>
+                <p>No hay feedback disponible</p>
+            </div>
+        )
+    }
+    return(
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tabla Estadisticas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td> <Estadisticas name ='Buenas'/> </td>
+                    <td> <Estadisticas estadistica={good}/> </td>
+                </tr>
+                <tr>
+                    <td> <Estadisticas name = 'Neutral'/> </td>
+                    <td> <Estadisticas estadistica={neutral}/> </td>
+                </tr>
+                <tr>
+                    <td> <Estadisticas name = 'Malas'/> </td>
+                    <td> <Estadisticas estadistica={bad}/> </td>
+                </tr>
+                <tr>
+                    <td> <Estadisticas name = 'Promedio Puntuacion'/> </td>
+                    <td> <Estadisticas estadistica={((good+(neutral*0)+(bad*-1))/(good+neutral+bad))}/> </td>
+                </tr>
+                <tr>
+                    <td> <Estadisticas name = 'Porcentaje Positivas'/> </td>
+                    <td> <Estadisticas estadistica={(good/(good+neutral+bad)*100)+' %'}/> </td>
+                </tr>
+                </tbody>
+            </table>
+            {/*
+            <Estadisticas name ='Buenas ' estadistica = {good} />
+            <Estadisticas name ='Nuetrales ' estadistica = {neutral} /> 
+            <Estadisticas name ='Malas ' estadistica = {bad} />
+            <Estadisticas name ='Todas ' estadistica = {good+neutral+bad} />
+            <Estadisticas name ='Promedio Puntuacion ' estadistica = {((good+(neutral*0)+(bad*-1))/(good+neutral+bad))}/>
+            <Estadisticas name ='Porcentaje Positivas ' estadistica = {(good/(good+neutral+bad)*100)+' %'}/>
+            */}
+        </div>
+    )
+} 
 
 const App = () => {
-    //const [left, setLeft] = useState(0)
-    //const [right, setRight] = useState(0) //esta forma es mejor (estado mas atomico)
-    const [clicks, updateClicks] = useState({
-        left : 0, 
-        right : 0,
-        counter : 0, //siempre que puedas no tengas en el estado algo que puedas calcular
-        mensaje : "Mensaje en el estado"
-    }) // forma mas compleja. Objeto.
 
-    const[counterc, setCounterc] = useState([]) //estado complejo matriz
-
-    const handleLeftClick = () =>{
-        const newClicks = {
-            ...clicks, //spread opertor. Se guardan propiedades del objeto previas y se sobrescriben con las siguientes
-            left: clicks.left + 1,
-            counter: clicks.counter + 1
-            //right: clicks.right //ya no tiene sentido se recuper en ...clicks
-        }
-        updateClicks(newClicks)
-        setCounterc (prevCounter =>{
-            return prevCounter.concat('L')
-        })
-    }
-
-    const handleRightClick = () => {
-        updateClicks ({ 
-        ...clicks,
-          //left: clicks.left, 
-          right: clicks.right + 1,
-          counter: clicks.counter + 1 
-        })
-        setCounterc(prevCounter=>([...prevCounter, 'R']))
-      }
-  
-    return (
-      <div>
-        {clicks.left}
-        <button onClick={handleLeftClick}> left </button>
-        <button onClick={handleRightClick}> right </button>
-        {clicks.right}
-        <p>Clicks Totales: {clicks.counter}</p>
-        <p>{clicks.mensaje}</p>
-        <p>{counterc.join(', ')}</p>
-        <p>{counterc.length.toString()}</p>
-        {counterc.length === 0 ? (<NoSeUsaAdvertencia/>
-        ) : (<ClickHistory counterc ={counterc}/>)}
-      </div>
+    const [good, setGood] = useState(0)
+    const [neutral, setNeutral] = useState(0)
+    const [bad, setBad] = useState(0)
+    
+    const increaseGoodByOne = () => setGood(good + 1)
+    const increaseNeutralByOne = () => setNeutral(neutral + 1)
+    const increaseBadByOne = () => setBad(bad + 1)
+    
+    return(
+    <div>
+        <Header name = "Danos tu opinion" />
+        <Button handleClick = {increaseGoodByOne} text = "Buena" />
+        <Button handleClick = {increaseNeutralByOne} text = "Neutral" />
+        <Button handleClick = {increaseBadByOne} text = "Mala" />
+        <H2 name = 'Estadisticas' />
+        <Stats good={good} bad={bad} neutral={neutral}  />        
+    </div>
     )
-  }
+}
 
-  ReactDOM.render(
+ReactDOM.render(
     <App />, 
     document.getElementById('root')
 )
