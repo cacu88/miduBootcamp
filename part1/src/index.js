@@ -5,14 +5,20 @@ const Button = ({handleClick, text}) => (<button onClick={handleClick}> {text} <
 
 const App = (props) => {
 
-    const otraAnecdota = () => setSelected(Math.floor(Math.random() * anecdotes.length))
-    const [selected, setSelected] = useState(0)
-
+    const otraAnecdota = () => setSelected({...selected, posicion : Math.floor(Math.random() * anecdotes.length)})
+    //const votarAnecdota = () => setSelected({...selected, votos : copy[selected.posicion]+=1})
+    const [selected, setSelected] = useState({
+        posicion : 0,
+        votos : [0,0,0,0,0,0]
+    })
+    let copy = [...selected.votos]  
     return (
     <div>
-      <p>{props.anecdotes[selected]}</p>
-      <Button text='Votar'/>
+      <p>{props.anecdotes[selected.posicion]}</p>
+      {/*<p>votos: {copy[selected.posicion]} </p>
+      <Button handleClick={votarAnecdota} text='Votar'/>*/}
       <Button handleClick={otraAnecdota} text='Andecota Random'/>
+      {console.log(copy[selected.posicion])}
     </div>
   )
 }
