@@ -2,23 +2,36 @@ import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
 const Button = ({handleClick, text}) => (<button onClick={handleClick}> {text} </button>)
+const Titulo = ({name}) => <h2>{name}</h2>
 
 const App = (props) => {
 
     const otraAnecdota = () => setSelected({...selected, posicion : Math.floor(Math.random() * anecdotes.length)})
-    //const votarAnecdota = () => setSelected({...selected, votos : copy[selected.posicion]+=1})
+    const votarAnecdota = () => {
+      let copy = [...selected.votos]; 
+      copy[selected.posicion] += 1; 
+      setSelected ({...selected, votos: copy})
+    }
+    
+    const votosIni =  new Array(anecdotes.length)
+    votosIni.fill(0)
+    
     const [selected, setSelected] = useState({
         posicion : 0,
-        votos : [0,0,0,0,0,0]
-    })
-    let copy = [...selected.votos]  
+        votos : votosIni
+    })    
+    let maxValue = Math.max(...selected.votos)
+    let indiceMayorValor = selected.votos.indexOf(maxValue)
     return (
     <div>
+      <Titulo name ='Anecdota del dia'/>
       <p>{props.anecdotes[selected.posicion]}</p>
-      {/*<p>votos: {copy[selected.posicion]} </p>
-      <Button handleClick={votarAnecdota} text='Votar'/>*/}
+      <p>votos: {selected.votos[selected.posicion]} </p>
+      <Button handleClick={votarAnecdota} text='Votar'/>
       <Button handleClick={otraAnecdota} text='Andecota Random'/>
-      {console.log(copy[selected.posicion])}
+      <Titulo name='Anecdota con mas votos'/>
+      {console.log(maxValue)}  
+      <p>{props.anecdotes[indiceMayorValor]}</p>
     </div>
   )
 }
