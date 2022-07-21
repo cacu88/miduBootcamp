@@ -32,6 +32,7 @@ const App = (props) => {
       <Titulo name='Anecdota con mas votos'/>
       {console.log(maxValue)}  
       <p>{props.anecdotes[indiceMayorValor]}</p>
+      <p>tiene {selected.votos[indiceMayorValor]} votos</p>
     </div>
   )
 }
