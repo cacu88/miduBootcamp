@@ -1,48 +1,50 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import App from './App'
 
-const notes = [
+const courses = [
   {
+    name: 'Half Stack application development',
     id: 1,
-    content: 'HTML is easy',
-    date: '2019-05-30T17:30:31.098Z',
-    important: true,
+    parts: [
+      {
+        name: 'Fundamentals of React',
+        exercises: 10,
+        id: 1,
+      },
+      {
+        name: 'Using props to pass data',
+        exercises: 7,
+        id: 2,
+      },
+      {
+        name: 'State of a component',
+        exercises: 14,
+        id: 3,
+      },
+      {
+        name: 'Redux',
+        exercises: 11,
+        id: 4,
+      },
+    ],
   },
   {
+    name: 'Node.js',
     id: 2,
-    content: 'Browser can execute only JavaScript',
-    date: '2019-05-30T18:39:34.091Z',
-    important: false,
-  },
-  {
-    id: 3,
-    content: 'GET and POST are the most important methods of HTTP protocol',
-    date: '2019-05-30T19:20:14.298Z',
-    important: true,
+    parts: [
+      {
+        name: 'Routing',
+        exercises: 3,
+        id: 1,
+      },
+      {
+        name: 'Middlewares',
+        exercises: 7,
+        id: 2,
+      },
+    ],
   },
 ]
-
-const App = props => {
-  const { notes } = props
-
-  return (
-    <div>
-      <h1>Notes</h1>
-      <ul>
-        {/*<li>{notes[0].content}</li>
-        <li>{notes[1].content}</li>
-  <li>{notes[2].content}</li>*/}
-  {notes.map(
-    note =>( 
-    <li key={note.id}>{note.content}</li>
-    )
-  )}
-      </ul>
-    </div>
-  )
-}
-
-const result = notes.map(note => note.id)
-console.log(result)
-
-ReactDOM.render(<App notes={notes} />, document.getElementById('root'))
+  
+  ReactDOM.render(<App cursos={courses}/>, document.getElementById('root'))
