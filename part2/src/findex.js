@@ -2,7 +2,21 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 //import Note from './components/Note'
 import App from './App'
+//import axios from 'axios'
+/*
+axios
+  .get('http://localhost:3001/notes')
+  .then(response =>{
+    const notes = response.data
+    ReactDOM.render(
+      <App notes={notes} />,
+      document.getElementById('root')
+    )
+  })
 
+const promise2 = axios.get('http://localhost:3001/foobar')
+console.log(promise2)
+*//*
 const notes = [
   {
     id: 1,
@@ -23,7 +37,7 @@ const notes = [
     important: true,
   },
 ]
-
+*/
 //const Note = ({ note }) => {  return <li>{note.content}</li>}
 
 //const App = ({notes}) => {
@@ -47,4 +61,4 @@ const notes = [
 /*const result = notes.map(note => note.id)
 console.log(result)*/
 
-ReactDOM.render(<App notes={notes} />, document.getElementById('root'))
+ReactDOM.render(<App/>, document.getElementById('root'))
